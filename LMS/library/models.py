@@ -37,7 +37,7 @@ class Loan(models.Model):
 
 class Fine(models.Model):
     loan = models.OneToOneField(Loan , on_delete = models.CASCADE)
-    amount = models.CharField(max_length = 4)
+    amount = models.IntegerField(max_length = 4)
 
     STATUS_CHOICES = [
         ('Completed', 'Completed'),

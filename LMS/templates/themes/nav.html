@@ -1,0 +1,36 @@
+ 
+   <!-- navbar start  -->
+
+    <div>
+    <nav class = "navbar navbar-inverse navbar-fixed-top">
+        <div class = "container">
+            <div class = "navbar-header">
+                <!-- collapsing bar -->
+                <button type="button" class = "navbar-toggle collapsed" data-toggle = "collapse" data-target = "#bs-nav-demo" aria-expanded="false">
+                    <span class = "sr-only">Toggle navigation</span>
+                    <span class = "icon-bar"></span>
+                    <span class = "icon-bar"></span>
+                    <span class = "icon-bar"></span>
+                </button>
+
+                <!-- brand logo -->
+                <a href="{% url 'home-link'%}" class = "navbar-brand"><span class = "glyphicon glyphicon-book"></span> LMS</a>
+            </div>
+
+            <!-- nav bar items -->
+            <div class = "collapse navbar-collapse" id = "bs-nav-demo">
+                <ul class = "nav navbar-nav">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <hr>
+                </ul>
+                <ul class = "nav navbar-nav navbar-right">
+                    <li><a href="{% url 'register-link'%}">Sign up</a></li>
+                    <li><a href="{% url 'login-link'%} ">Log in</a></li>
+                </ul>
+    
+        </div>
+    </nav>
+    </div>
+
+  <!-- navbar end  -->
