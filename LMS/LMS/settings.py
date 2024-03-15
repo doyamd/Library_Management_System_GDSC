@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'crispy_forms',
+    'crispy_bootstrap5',
     'library.apps.LibraryConfig',
     'users.apps.UsersConfig',
 
@@ -104,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4' #optional framework
+CRISPY_TEMPLATE_PACK = 'bootstrap5' #optional framework
 
 
 # Internationalization
@@ -136,4 +138,9 @@ STATICFILES_DIRS =[
 ] 
 
 STATIC_ROOT = (BASE_DIR/ "asert/")
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 

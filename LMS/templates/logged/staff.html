@@ -1,0 +1,53 @@
+{% extends "themes/main.html" %}
+{% block title %}STAFF{% endblock title %}
+
+
+{% block content %}
+{% comment %} no routes yet {% endcomment %}
+        <div class="container">
+            <div class="row justify-content-center mt-4">
+                <div class="col-sm-4">
+                    <div class="card" style="max-width: 300px; max-height: 250px;">
+                        <img
+                            src="add.jpg"
+                            class="card-img-top"
+                            alt="Image 1"
+                            style="max-height: 200px;"
+                        >
+                        <div class="card-body">
+                            <h5 class="card-title">Add Book</h5>
+                            <a href="#" class="btn btn-primary mt-3">Add</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card" style="max-width: 300px; max-height: 250px;">
+                        <img
+                            src="update.jpg"
+                            class="card-img-top"
+                            alt="Image 2"
+                            style="max-height: 200px;"
+                        >
+                        <div class="card-body">
+                            <h5 class="card-title">Update Book</h5>
+                            <a href="#" class="btn btn-primary mt-3">Update</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card" style="max-width: 300px; max-height: 250px;">
+                        <img
+                            src="delete.jpg"
+                            class="card-img-top"
+                            alt="Image 3"
+                            style="max-height: 200px;"
+                        >
+                        <div class="card-body">
+                            <h5 class="card-title">Delete Book</h5>
+                            <a href="#" class="btn btn-primary mt-3">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock content %}
