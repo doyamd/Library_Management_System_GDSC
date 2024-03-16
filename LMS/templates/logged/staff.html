@@ -2,91 +2,35 @@
 {% block title %}STAFF{% endblock title %}
 
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center mt-4">
+    <div class = "container">
+    <div class="bg-secondary p-3 rounded-3 m-3">
+    <h1 class="display-4">Wellcome {{user.name}}</h1>
+    <p class="lead">With Great Power Comes Great Resposibility!</p>
+    <hr class="my-4">
+    <br>
+    <a class="btn btn-primary btn-md" href="{% url 'addBook-link' %}" role="button">ADD BOOK</a>
+    <a class="btn btn-primary btn-md" href="{% url 'addBook-link' %}" role="button">ADD GENRE</a>
+    <a class="btn btn-primary btn-md" href="{% url 'addBook-link' %}" role="button">ADD AUTHOR</a>
+    <a class="btn btn-primary btn-md" href="{% url 'addBook-link' %}" role="button">ADD PUBLISHER</a>
+    </div>
+
+    <div class = "row">
         {% for book in books %}
-        <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="card p-2 m-2 bg-secondary">
-                <img src="{{ book.cover.url }}" class="card-img-top" alt="{{ book.Title }}" style="max-height: 300px;">
-                <div class="card-body" style="max-height: 300px;">
-                    <h5 class="card-title text-light">{{ book.Title }}</h5>
-                    <p class="card-text">Author: {{ book.author.Author_name }}</p>
-                    <p>Publisher: {{ book.publisher.Publisher_name }}</p>
-                    <p>Publication year: {{ book.Publication_year }}</p>
+            <div class = "col-lg-3 col-md-4 col-sm-6">
+                <div class="card p-2 m-2 bg-secondary" >
+                    <img src="{{book.cover.url}}" class="card-img-top" alt="{{ book.Title }}" style="max-height: 300px;">
+                        <div class="card-body" style="max-height: 300px;">
+                        <h5 class="card-title text-light">{{ book.Title }}</h5>
+                        <p class="card-text">Author: {{ book.author.Author_name }}</p>
+                        <p>Publisher: {{ book.publisher.Publisher_name }}</p>
+                        <p>Publication year: {{ book.Publication_year }}</p>
+                        <a href="{%url 'loan-link' book.id%}" class="btn btn-primary">Delete</a>
+                        <a href="{%url 'loan-link' book.id%}" class="btn btn-primary">Update</a>
+                        </div>
                 </div>
             </div>
-        </div>
         {% endfor %}
-        <div class="col-sm-4">
-            <div class="card" style="max-width: 300px; max-height: 250px;">
-                <img src="add.jpg" class="card-img-top" alt="Add Book" style="max-height: 200px;">
-                <div class="card-body">
-                    <h5 class="card-title">Add {% extends "themes/main.html" %}
-                        {% block title %}STAFF{% endblock title %}
-                        
-                        {% block content %}
-                            <div class = "container">
-                            <div class="bg-secondary p-3 rounded-3 m-3">
-                            <h1 class="display-4">Wellcome {{user.name}}</h1>
-                            <p class="lead">With Great Power Comes Great Resposibility!</p>
-                            <hr class="my-4">
-                            <br>
-                            <a class="btn btn-primary btn-md" href="{% url 'addBook-link' %}" role="button">ADD BOOK</a>
-                            <a class="btn btn-primary btn-md" href="{% url 'addBook-link' %}" role="button">ADD GENRE</a>
-                            <a class="btn btn-primary btn-md" href="{% url 'addBook-link' %}" role="button">ADD AUTHOR</a>
-                            <a class="btn btn-primary btn-md" href="{% url 'addBook-link' %}" role="button">ADD PUBLISHER</a>
-                            </div>
-                        
-                            <div class = "row">
-                                {% for book in books %}
-                                    <div class = "col-lg-3 col-md-4 col-sm-6">
-                                        <div class="card p-2 m-2 bg-secondary" >
-                                            <img src="{{book.cover.url}}" class="card-img-top" alt="{{ book.Title }}" style="max-height: 300px;">
-                                                <div class="card-body" style="max-height: 300px;">
-                                                <h5 class="card-title text-light">{{ book.Title }}</h5>
-                                                <p class="card-text">Author: {{ book.author.Author_name }}</p>
-                                                <p>Publisher: {{ book.publisher.Publisher_name }}</p>
-                                                <p>Publication year: {{ book.Publication_year }}</p>
-                                                <a href="{%url 'loan-link' book.id%}" class="btn btn-primary">Delete</a>
-                                                <a href="{%url 'loan-link' book.id%}" class="btn btn-primary">Update</a>
-                                                </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                                </div>
-                            </div>
-                            
-                        {% endblock content %}Book</h5>
-                    <a href="{% url 'addBook' %}" class="btn btn-primary mt-3">Add</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="card" style="max-width: 300px; max-height: 250px;">
-                <img src="update.jpg" class="card-img-top" alt="Update Book" style="max-height: 200px;">
-                <div class="card-body">
-                    <h5 class="card-title">Update Book</h5>
-                    <a href="{% url 'update_book' %}" class="btn btn-primary mt-3">Update</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="card" style="max-width: 300px; max-height: 250px;">
-                <img src="delete.jpg" class="card-img-top" alt="Delete Book" style="max-height: 200px;">
-                <div class="card-body">
-                    <h5 class="card-title">Delete Book</h5>
-                    <a href="{% url 'delete_book' %}" class="btn btn-primary mt-3">Delete</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 mt-4">
-            <div class="card" style="max-width: 300px; max-height: 250px;">
-                <div class="card-body">
-                    <h5 class="card-title">View Loaned Books</h5>
-                    <a href="{% url 'loanedBooks' %}" class="btn btn-primary mt-3">View</a>
-                </div>
-            </div>
         </div>
     </div>
-</div>
+    
 {% endblock content %}
