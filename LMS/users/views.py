@@ -1,7 +1,8 @@
 from .forms import MyUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login , logout
+
 
 def loginUser(request):
     if request.method == 'POST':
@@ -12,12 +13,12 @@ def loginUser(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                if user.is_staff or user.is_superuser:
-                    return redirect('fronts/staff.html')
+                if user.is_staff:
+                    return redirect('display_staff-link')
                 else:
-                    return redirect('fronts/display.html')
+                    return redirect('display-link')
             else:
-                return redirect('fronts/register.html')
+                return redirect('register-link')
     else:
         form = AuthenticationForm()
     
@@ -40,3 +41,7 @@ def register(request):
 
 def home(request):
     return render(request , 'fronts/home.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('home-link')

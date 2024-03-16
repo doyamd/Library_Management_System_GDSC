@@ -1,0 +1,23 @@
+{% extends "themes/main.html" %}
+{% block title %}ADD PUBLISHER{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class = "row justify-content-center m-5">
+        <div class="col-md-6 bg-secondary">
+            <div class="p-3">
+                <h4 class="text-light">ADD PUBLISHER</h4>
+                <hr>
+                <form method = 'POST' name="add_publisher">
+                    <div class="p-3">
+                        {%csrf_token%}
+                        {{publisherform| crispy}}
+                    </div>   
+                  <input class="btn btn-success" type="submit" value="ADD" name="add_publisher"> 
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

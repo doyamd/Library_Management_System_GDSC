@@ -1,0 +1,47 @@
+{% extends "themes/main.html" %}
+
+{% block content %}
+
+{% if not user.is_staff %}
+<div class = "row">
+    {% for book in books %}
+        <div class = "col-lg-3 col-md-4 col-sm-6">
+            <div class="card p-2 m-2 bg-secondary" >
+                <img src="{{book.cover.url}}" class="card-img-top" alt="{{ book.Title }}" style="max-height: 300px;">
+                    <div class="card-body" style="max-height: 300px;">
+                    <h5 class="card-title text-light">{{ book.Title }}</h5>
+                    <p class="card-text">Author: {{ book.author.Author_name }}</p>
+                    <p>Publisher: {{ book.publisher.Publisher_name }}</p>
+                    <p>Publication year: {{ book.Publication_year }}</p>
+                    <a href="{%url 'loan-link' book.id%}" class="btn btn-primary">Loan</a>
+                    </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% else %}
+
+<div class = "row">
+    {% for book in books %}
+        <div class = "col-lg-3 col-md-4 col-sm-6">
+            <div class="card p-2 m-2 bg-secondary" >
+                <img src="{{book.cover.url}}" class="card-img-top" alt="{{ book.Title }}" style="max-height: 300px;">
+                    <div class="card-body" style="max-height: 300px;">
+                    <h5 class="card-title text-light">{{ book.Title }}</h5>
+                    <p class="card-text">Author: {{ book.author.Author_name }}</p>
+                    <p>Publisher: {{ book.publisher.Publisher_name }}</p>
+                    <p>Publication year: {{ book.Publication_year }}</p>
+                    <a href="{%url 'loan-link' book.id%}" class="btn btn-primary">Delete</a>
+                    <a href="{%url 'loan-link' book.id%}" class="btn btn-primary">Update</a>
+                    </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+
+{% endif %}
+
+{% endblock content %}
