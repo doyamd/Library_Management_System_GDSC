@@ -24,7 +24,7 @@
                     <p class="card-text">Author: {{ book.author.Author_name }}</p>
                     <p>Publisher: {{ book.publisher.Publisher_name }}</p>
                     <p>Publication year: {{ book.Publication_year }}</p>
-                    <a href="{%url 'loan-link' book.id%}" class="btn btn-primary">Loan</a>
+                    <a href="{%url 'loan_book_clicked' book.id%}" class="btn btn-primary">Loan</a>
                     </div>
             </div>
         </div>

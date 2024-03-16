@@ -13,9 +13,9 @@ def loginUser(request):
             if user is not None:
                 login(request, user)
                 if user.is_staff or user.is_superuser:
-                    return redirect('fronts/staff.html')
+                    return redirect('logged/staff.html')
                 else:
-                    return redirect('fronts/display.html')
+                    return redirect('logged/display.html')
             else:
                 return redirect('fronts/register.html')
     else:

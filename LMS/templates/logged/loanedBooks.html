@@ -1,0 +1,40 @@
+
+{% extends "themes/main.html" %}
+{% block title %}Loaned Books{% endblock title %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">Loaned Books</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Book</th>
+                                    <th>User</th>
+                                    <th>Check-out Date</th>
+                                    <th>Return Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for loan in loaned_books %}
+                                <tr>
+                                    <td>{{ loan.book.title }}</td>
+                                    <td>{{ loan.user.username }}</td>
+                                    <td>{{ loan.check_out_date }}</td>
+                                    <td>{{ loan.return_date }}</td>
+                                    <td>{{ loan.status }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
