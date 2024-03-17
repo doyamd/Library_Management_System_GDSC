@@ -1,12 +1,20 @@
-
 {% extends "themes/main.html" %}
-{% block title %}Loaned Books{% endblock title %}
+{% block title %}Return Requests{% endblock title %}
 {% block content %}
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">Loaned Books</div>
+                <div class="card-header">Requests</div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -14,17 +22,18 @@
                                 <tr>
                                     <th>Book</th>
                                     <th>User</th>
-                                    <th>Check-out Date</th>
-                                    <th>Return Date</th>
+                                    <th>Fine Amount</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for loan in loaned_books %}
+                                {% for req in reqs %}
                                 <tr>
-                                    <td>{{ loan.book.Title }}</td>
-                                    <td>{{ loan.user.username }}</td>
-                                    <td>{{ loan.check_out_date }}</td>
-                                    <td>{{ loan.return_date }}</td>
+                                    <td>{{ req.loan.book.Title }}</td>
+                                    <td>{{ req.loan.user.username }}</td>
+                                    <td></td>
+                                    <td><a class="btn btn-primary btn-md mx-2" href="{% url 'return_req-link' req.loan.id %}" role="button">Grant Request</a></td>
+                                    
                                 </tr>
                                 {% endfor %}
                             </tbody>

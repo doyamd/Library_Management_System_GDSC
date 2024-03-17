@@ -1,0 +1,48 @@
+{% extends "themes/main.html" %} 
+{% load crispy_forms_tags %} 
+{% block content %} 
+{% if messages %} 
+{% for message in messages %}
+<div class="alert alert-success" role="alert">{{ message }}</div>
+{% endfor %} 
+{% endif %}
+
+<div class="container">
+  <div class="bg-secondary p-3 rounded-3 m-3">
+    <p class="lead">What is your take on the book {{loan.book.Title}}</p>
+  </div>
+
+  <div class="row">
+    <hr class="text-light" />
+    <div class="col-lg-6">
+      <div class="card p-2 m-2 bg-secondary">
+        <img
+          src="{{loan.book.cover.url}}"
+          class="card-img-top"
+          alt="{{ loan.book.Title }}"
+          style="max-height: 300px"
+        />
+        <div class="card-body" style="max-height: 300px">
+          <p class="card-text">Author: {{ loan.book.author.Author_name }}</p>
+          <p>Publisher: {{ loan.book.publisher.Publisher_name }}</p>
+          <p>Publication year: {{ loan.book.Publication_year }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="bg-secondary">
+        <div class="p-3">
+          <h4 class="text-light">Review</h4>
+          <form method="POST">
+            <div class="p-3">{%csrf_token%} {{form| crispy}}</div>
+            <input class="btn btn-success" type="submit" value="Submit" />
+            <button id="myButton" type="button" class="btn btn-primary" href = "{% url 'like-link' loan.id %}">I Liked It</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock content %}
+</div>

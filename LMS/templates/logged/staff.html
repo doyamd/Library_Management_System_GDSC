@@ -2,16 +2,27 @@
 {% block title %}STAFF{% endblock title %}
 
 {% block content %}
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
     <div class = "container">
     <div class="bg-secondary p-3 rounded-3 m-3">
-    <h1 class="display-4">Wellcome {{user.name}}</h1>
+    <h1 class="display-4">Wellcome {{user.first_name}}</h1>
     <p class="lead">With Great Power Comes Great Resposibility!</p>
     <hr class="my-4">
     <br>
-    <a class="btn btn-primary btn-md" href="{% url 'addBook-link' %}" role="button">ADD BOOK</a>
-    <a class="btn btn-primary btn-md" href="{% url 'addGenre-link' %}" role="button">ADD GENRE</a>
-    <a class="btn btn-primary btn-md" href="{% url 'addAuthor-link' %}" role="button">ADD AUTHOR</a>
-    <a class="btn btn-primary btn-md" href="{% url 'addPublisher-link' %}" role="button">ADD PUBLISHER</a>
+    <a class="btn btn-primary btn-md mx-2" href="{% url 'addGenre-link' %}" role="button">ADD GENRE</a>
+    <a class="btn btn-primary btn-md mx-2" href="{% url 'addBook-link' %}" role="button">ADD BOOK</a>
+    <a class="btn btn-primary btn-md mx-2" href="{% url 'addAuthor-link' %}" role="button">ADD AUTHOR</a>
+    <a class="btn btn-primary btn-md mx-2" href="{% url 'addPublisher-link' %}" role="button">ADD PUBLISHER</a>
+    <a class="btn btn-primary btn-md mx-2" href="{% url 'loaned-book-link' %}" role="button">LOANED BOOKS</a>
+    <a class="btn btn-primary btn-md mx-2" href="{% url 'req_page-link' %}" role="button">RETURN REQUESTS</a>
     </div>
 
     <div class = "row">

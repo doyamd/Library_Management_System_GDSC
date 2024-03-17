@@ -1,18 +1,19 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import request
-from .models import Loan, Book
+from .models import Loan, Book, ReturnRequest , Likes
 from users.models import MyUser
 from django.contrib import messages
 from datetime import datetime  
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .forms import BookCreation,GenreCreation,AuthorCreation,PublisherCreation
+from .forms import BookCreation,GenreCreation,AuthorCreation,PublisherCreation,Reviewer
 
 
 @login_required
 def books_display(request):
+    loans = Loan.objects.all()
     books = Book.objects.all()
-    context = {'books': books}
+    context = {'books': books , 'loans' : loans}
     return render(request , 'logged/display.html' , context)
 
 @login_required
@@ -28,26 +29,35 @@ def loan_book_clicked(request, book_id):
     return render(request , 'logged/loan.html' , context)
 
 @login_required
-def loan_book(request, book_id):
+def loan_book(request, book_id , user_id):
     book = get_object_or_404(Book, id=book_id)
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        status = request.POST.get('status')
-        user = MyUser.objects.get(username=username)
-        current_date = datetime.now() 
-        loan = Loan.objects.create(book=book, user=user, check_out_date=current_date, status=status)
-        loan.save()
-        messages.success(request, f'{book.Title} successfully loaned.')
-        return redirect('display-link')
-    
+    user_loans = Loan.objects.filter(user__id=user_id).count()
+    book_loans = Loan.objects.filter(book__id = user_id).count()
+
+    context = {'book': book}
+
+    if user_loans < 6 and book_loans < book.Number_of_copies:
+        if request.method == 'POST':
+            user = get_object_or_404(MyUser , id=user_id)
+            current_date = datetime.now() 
+            loan = Loan.objects.create(book=book, user=user, check_out_date=current_date )
+            loan.save()
+            messages.success(request, f'{book.Title} successfully loaned.')
+            return redirect('display-link')
+        
+        else:
+            messages.info(request, 'The book is not available for loan.')
+            context = {'book': book}
+            return render(request, 'logged/loan.html', context)
+
     else:
-        context = {'book': book}
+        messages.error(request, 'You have reached your loan limit or there are no copies left.')
         return render(request, 'logged/loan.html', context)
 
 @login_required
-def loaned_books(request):
+def loaned_books(request ):
     loaned_books = Loan.objects.all()  
-    return render(request, 'loaned_books.html', {'loaned_books': loaned_books})
+    return render(request, 'logged/loanedBooks.html', {'loaned_books': loaned_books})
 
 
 
@@ -63,11 +73,11 @@ def search_book(request):
 @login_required
 def add_book(request):
     if request.method == 'POST':
-        bookform = BookCreation(request.POST)
+        bookform = BookCreation(request.POST , request.FILES)
 
-
-        if 'add_book' in request.POST and bookform.is_valid():
-            book = bookform.save()
+        if bookform.is_valid():
+            bookform.save()
+            return redirect('display_staff-link')
 
     else:
         bookform = BookCreation()
@@ -82,12 +92,11 @@ def add_book(request):
 @login_required
 def add_genre(request):
     if request.method == 'POST':
-  
         genreform = GenreCreation(request.POST)
 
-
-        if 'add_genre' in request.POST and genreform.is_valid():
-            genre = genreform.save()
+        if genreform.is_valid():
+           genreform.save()
+           return redirect('display_staff-link')
 
     else:
         genreform = GenreCreation()
@@ -103,8 +112,9 @@ def add_author(request):
     if request.method == 'POST':
         authorform = AuthorCreation(request.POST )
         
-        if 'add_author' in request.POST and authorform.is_valid():
-            author = authorform.save()
+        if authorform.is_valid():
+            authorform.save()
+            return redirect('display_staff-link')
 
     else:
         authorform = AuthorCreation()
@@ -122,8 +132,9 @@ def add_pulisher(request):
     if request.method == 'POST':
         publisherform = PublisherCreation(request.POST)
 
-        if 'add_publisher' in request.POST and publisherform.is_valid():
-            publisher = publisherform.save()
+        if publisherform.is_valid():
+            publisherform.save()
+            return redirect('display_staff-link')
     else:
         publisherform = PublisherCreation()
 
@@ -132,3 +143,45 @@ def add_pulisher(request):
                }
 
     return render(request , 'logged/addPublisher.html' , context)
+
+
+@login_required
+def grant_request(request , loan_id):
+    loan = Loan.objects.get( id=loan_id )
+    messages.success(request, f'{loan.book.Title} successfully returned.')
+    loan.delete()
+    return redirect('display_staff-link')
+
+@login_required
+def request_return(request , loan_id):
+    loan_obj = Loan.objects.get(id = loan_id)
+    request_obj =  ReturnRequest(loan = loan_obj)
+    
+    if request.method == 'POST':
+        form = Reviewer(request.POST , user = loan_obj.user , book = loan_obj.book)
+        if form.is_valid():
+            form.save()
+            request_obj.save()
+            messages.success(request, f'Request to return {loan_obj.book.Title} successfull.')
+    else:
+        form = Reviewer(user = loan_obj.user , book = loan_obj.book)
+        
+
+    context = {'loan':loan_obj , 'form':form}
+    return render(request , 'logged/review.html' , context)
+
+
+@login_required
+def display_req(request):
+    reqs = ReturnRequest.objects.all()
+    context = {'reqs': reqs}
+    return render(request , 'logged/returnReq.html' , context)
+
+@login_required
+def like(request , loan_id):
+    loan_obj = Loan.objects.get(id = loan_id)
+    book_obj = loan_obj.book
+    user_obj = loan_obj.user
+    like_obj = Likes(user = user_obj , book = book_obj)
+    like_obj.save()
+    return redirect('display-link')
