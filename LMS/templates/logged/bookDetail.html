@@ -1,0 +1,43 @@
+{% extends "themes/main.html" %} 
+{% load crispy_forms_tags %} 
+{% block content %} 
+
+<div class="container">
+  <div class="bg-secondary p-3 rounded-3 m-3">
+    <h3 class = "text-center"><span class = "fst-italic">{{book.Title}}</span> Reviews and Details</h3>
+  </div>
+  <div class="row">
+    <hr class="text-light" />
+    <div class="col-lg-6">
+      <div class="card p-2 m-2 bg-secondary">
+        <img
+          src="{{ book.cover.url }}"
+          class="card-img-top"
+          alt="{{ loan.book.Title }}"
+          style="max-height: 300px"
+        />
+        <div class="card-body" style="max-height: 300px">
+          <p class="card-text">Author: {{book.author.Author_name }}</p>
+          <p>Publisher: {{ book.publisher.Publisher_name }}</p>
+          <p>Publication year: {{ book.Publication_year }}</p>
+          <p>Number of likes: {{ likes }}</p>
+        </div>
+      </div>
+    </div>
+
+     <div class="col">
+      {% for review in reviews %}
+      <div class="col-sm-6 mb-4 mb-sm-2">
+        <div class="card bg-warning">
+          <div class="card-body">
+            <h5 class="card-title">by : {{ review.user.username }}</h5>
+            <hr>
+            <p><small>{{ review.review }}</small></p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endblock content %}
+</div>

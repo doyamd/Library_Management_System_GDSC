@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import request
-from .models import Loan, Book, ReturnRequest,Fine , Likes
+from .models import Loan, Book, ReturnRequest,Fine , Likes , Review
 from users.models import MyUser
 from django.contrib import messages
 from datetime import datetime  
@@ -232,3 +232,13 @@ def like_page(request , loan_id):
     loan = get_object_or_404(Loan, id=loan_id)
     context = {'loan': loan}
     return render(request, 'logged/like.html', context)
+
+@login_required
+def bookDetail(request , book_id):
+    book = Book.objects.get(id = book_id)
+    likes = Likes.objects.filter(book__id = book_id).count()
+    reviews = Review.objects.filter(book__id = book_id)
+
+    context = {'book':book, 'likes':likes , 'reviews':reviews}
+
+    return render(request , 'logged/bookDetail.html' , context)
