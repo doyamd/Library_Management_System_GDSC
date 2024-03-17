@@ -1,0 +1,31 @@
+{% extends "themes/main.html" %}
+{% block title %}Delete Book{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Delete Book</div>
+                <div class="card-body">
+                    <p>Are you sure you want to delete "{{ book.Title }}"?</p>
+                    <form id="deleteForm" method="post">
+                        {% csrf_token %}
+                        <a href="{% url 'staff' %}" class="btn btn-danger">Delete</a>
+                        <a href="{% url 'staff' %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('deleteForm').addEventListener('submit', function(event) {
+        var confirmation = confirm("Are you sure you want to delete this book?");
+        if (!confirmation) {
+            event.preventDefault();
+        }
+    });
+</script>
+{% endblock content %}

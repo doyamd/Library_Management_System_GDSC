@@ -36,3 +36,8 @@ class PublisherCreation(ModelForm):
     class Meta:
         model = Publisher
         fields = '__all__'
+        
+class BookUpdate(ModelForm):
+    class Meta:
+        model = Book
+        fields = '__all__'

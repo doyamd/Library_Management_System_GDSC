@@ -6,7 +6,8 @@ from django.contrib import messages
 from datetime import datetime  
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .forms import BookCreation,GenreCreation,AuthorCreation,PublisherCreation,Reviewer
+from .forms import BookCreation,GenreCreation,AuthorCreation,PublisherCreation,Reviewer, BookUpdate
+
 
 
 @login_required
@@ -185,3 +186,27 @@ def like(request , loan_id):
     like_obj = Likes(user = user_obj , book = book_obj)
     like_obj.save()
     return redirect('display-link')
+
+@loggin_required
+def update_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    if request.method == 'POST':
+        form = BookUpdate(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('staff', book_id=book.id)  
+    else:
+        form = BookUpdate(instance=book)
+    
+    return render(request, 'updateBook.html', {'form': form, 'book': book})
+
+
+@login_required
+def delete_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    
+    if request.method == 'POST':
+        book.delete()
+        return redirect('staff')
+    else:
+        return render(request, 'deleteBook.html', {'book': book})
