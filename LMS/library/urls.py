@@ -17,6 +17,8 @@ urlpatterns = [
     path('return_request/<int:loan_id>/' , views.request_return , name = 'req-link'),
     path('return_request_page/' , views.display_req , name = 'req_page-link'),
     path('like/<int:loan_id>/' , views.like , name = 'like-link'),
+    path('like_page/<int:loan_id>/' , views.like_page , name = 'like_page-link'),
     path('update_book/<int:book_id>/', views.update_book, name='update-link'),
     path('delete_book/<int:book_id>/', views.delete_book, name='delete-link'),
+    path('delete_book_page/<int:book_id>/', views.delete_page, name='delete_page-link'),
 ] 

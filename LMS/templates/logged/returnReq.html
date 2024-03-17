@@ -31,7 +31,7 @@
                                 <tr>
                                     <td>{{ req.loan.book.Title }}</td>
                                     <td>{{ req.loan.user.username }}</td>
-                                    <td></td>
+                                    <td>{{req.fine.amount}}</td>
                                     <td><a class="btn btn-primary btn-md mx-2" href="{% url 'return_req-link' req.loan.id %}" role="button">Grant Request</a></td>
                                     
                                 </tr>

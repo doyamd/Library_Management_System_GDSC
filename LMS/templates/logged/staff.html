@@ -35,7 +35,7 @@
                         <p class="card-text">Author: {{ book.author.Author_name }}</p>
                         <p>Publisher: {{ book.publisher.Publisher_name }}</p>
                         <p>Publication year: {{ book.Publication_year }}</p>
-                        <a href="{%url 'delete-link' book.id%}" class="btn btn-primary">Delete</a>
+                        <a href="{%url 'delete_page-link' book.id%}" class="btn btn-primary">Delete</a>
                         <a href="{%url 'update-link' book.id%}" class="btn btn-primary">Update</a>
                         </div>
                 </div>

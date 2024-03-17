@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import request
-from .models import Loan, Book, ReturnRequest , Likes
+from .models import Loan, Book, ReturnRequest,Fine , Likes
 from users.models import MyUser
 from django.contrib import messages
 from datetime import datetime  
@@ -156,7 +156,15 @@ def grant_request(request , loan_id):
 @login_required
 def request_return(request , loan_id):
     loan_obj = Loan.objects.get(id = loan_id)
-    request_obj =  ReturnRequest(loan = loan_obj)
+
+    fine_amount = 0.0
+    if loan_obj.return_date.day - loan_obj.check_out_date.day > 15:
+        overdue = 15 - (loan_obj.return_date.day - loan_obj.check_out_date.day)
+        fine_amount = overdue * 10.0
+
+    fine_obj = Fine(loan = loan_obj , amount = fine_amount)
+    fine_obj.save()
+    request_obj =  ReturnRequest(loan = loan_obj , fine = fine_obj)
     
     if request.method == 'POST':
         form = Reviewer(request.POST , user = loan_obj.user , book = loan_obj.book)
@@ -164,6 +172,7 @@ def request_return(request , loan_id):
             form.save()
             request_obj.save()
             messages.success(request, f'Request to return {loan_obj.book.Title} successfull.')
+            return redirect('like_page-link' , loan_id )
     else:
         form = Reviewer(user = loan_obj.user , book = loan_obj.book)
         
@@ -187,26 +196,39 @@ def like(request , loan_id):
     like_obj.save()
     return redirect('display-link')
 
-@loggin_required
+@login_required
 def update_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     if request.method == 'POST':
         form = BookUpdate(request.POST, instance=book)
         if form.is_valid():
             form.save()
-            return redirect('staff', book_id=book.id)  
+            return redirect('display_staff-link')  
     else:
         form = BookUpdate(instance=book)
     
-    return render(request, 'updateBook.html', {'form': form, 'book': book})
+    return render(request, 'logged/updateBook.html', {'form': form, 'book': book})
 
 
 @login_required
 def delete_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
-    
-    if request.method == 'POST':
-        book.delete()
-        return redirect('staff')
-    else:
-        return render(request, 'deleteBook.html', {'book': book})
+
+    messages.success(request, f'{book.Title} successfully deleted.')
+    book.delete()
+    return redirect('display_staff-link')
+  
+    # messages.success(request, f'{book.Title} not deleted.')
+    # return render(request, 'logged/deleteBook.html', {'book': book})
+
+@login_required
+def delete_page(request , book_id):
+    book = get_object_or_404(Book, id=book_id)
+    context = {'book': book}
+    return render(request, 'logged/deleteBook.html', context)
+
+@login_required
+def like_page(request , loan_id):
+    loan = get_object_or_404(Loan, id=loan_id)
+    context = {'loan': loan}
+    return render(request, 'logged/like.html', context)

@@ -1,25 +1,18 @@
 {% extends "themes/main.html" %}
-{% block title %}Delete Book{% endblock title %}
+{% block title %}Did you like it{% endblock title %}
 
 {% block content %}
-
-{% if messages %} 
-{% for message in messages %}
-<div class="alert alert-success" role="alert">{{ message }}</div>
-{% endfor %} 
-{% endif %}
 
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Delete Book</div>
                 <div class="card-body">
-                    <p>Are you sure you want to delete "{{ book.Title }}"?</p>
+                    <p>Did you like "{{ loan.book.Title }}"?</p>
                     <form id="deleteForm" method='POST'>
                         {% csrf_token %}
-                        <a href="{% url 'delete-link' book.id %}" class="btn btn-danger">Delete</a>
-                        <a href="{% url 'display_staff-link' %}" class="btn btn-secondary">Cancel</a>
+                        <a href="{% url 'like-link' loan.id %}" class="btn btn-success">Yes</a>
+                        <a href="{% url 'display_staff-link' %}" class="btn btn-secondary">No</a>
                     </form>
                 </div>
             </div>

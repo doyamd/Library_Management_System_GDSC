@@ -54,37 +54,19 @@ class Loan(models.Model):
 
 
 class Fine(models.Model):
-    loan = models.OneToOneField(Loan , on_delete = models.CASCADE)
+    loan = models.ForeignKey(Loan , on_delete = models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def calculate_fine_amount(self):
-        expiry = timedelta(days=15)
-        safe = self.loan.check_out_date + expiry
-        overdue_days = (self.loan.return_date - safe).days
-        if overdue_days > 0:
-            return overdue_days * 10
-        else:
-            return 0
-
-    def save(self):
-        self.amount = self.calculate_fine_amount()
-        super(Fine, self).save()
-
-    STATUS_CHOICES = [
-        ('Completed', 'Completed'),
-        ('Pending', 'Pending'),
-    ]
-
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
-
     def __str__(self):
         return str(self.amount)
     
 class Likes(models.Model):
     user = models.ForeignKey(MyUser , on_delete = models.CASCADE)
     book = models.ForeignKey(Book , on_delete = models.CASCADE)
+
     def __str__(self):
-        return "Likes"
+        return f"By: {self.user.username} book: {self.book.Title}"
+
+
 class Review(models.Model):
     user = models.ForeignKey(MyUser , on_delete = models.CASCADE)
     book = models.ForeignKey(Book , on_delete = models.CASCADE)
@@ -95,6 +77,7 @@ class Review(models.Model):
 
 class ReturnRequest(models.Model):
     loan = models.ForeignKey(Loan , on_delete = models.CASCADE)
+    fine = models.ForeignKey(Fine , on_delete =  models.CASCADE , null = True)
 
     def __str__(self):
         return f'By: {self.user.username}'
