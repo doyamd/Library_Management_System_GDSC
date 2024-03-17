@@ -14,18 +14,20 @@
     <h4>Loaned Books</h4>
     <div class="row">
       {% for loan in loans %}
+      {% if loan.user.id == user.id %}
       <div class="col-sm-2 mb-2 mb-sm-0">
         <div class="card bg-warning">
           <div class="card-body">
-            {% if loan.user.id == user.id %}
+            
             <hr>
             <h5 class="card-title">{{loan.book.Title}}</h5>
             <p><small>due for: {{loan.return_date}}</small></p>
             <a class="btn btn-primary btn-md mx-2" href="{% url 'req-link' loan.id %}" role="button">RETURN</a>
-            {% endif %}
+            
           </div>
         </div>
       </div>
+      {% endif %}
       {% endfor %}
     </div>
   </div>
