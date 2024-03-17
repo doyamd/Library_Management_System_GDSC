@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login , logout
 
 
+
 def loginUser(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
@@ -25,13 +26,12 @@ def loginUser(request):
     context = {'form': form}
     return render(request, 'fronts/login.html', context)
 
-
 def register(request):
     if request.method == 'POST':
         form = MyUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-        return redirect('login-link')
+            return redirect('login-link')
     else:
         form = MyUserCreationForm()
     

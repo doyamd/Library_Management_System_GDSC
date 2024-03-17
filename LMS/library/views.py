@@ -13,13 +13,13 @@ from .forms import BookCreation,GenreCreation,AuthorCreation,PublisherCreation,R
 @login_required
 def books_display(request):
     loans = Loan.objects.all()
-    books = Book.objects.all()
+    books = set(Book.objects.all())
     context = {'books': books , 'loans' : loans}
     return render(request , 'logged/display.html' , context)
 
 @login_required
 def books_display_staff(request):
-    books = Book.objects.all()
+    books = set(Book.objects.all())
     context = {'books': books}
     return render(request , 'logged/staff.html' , context)
 
